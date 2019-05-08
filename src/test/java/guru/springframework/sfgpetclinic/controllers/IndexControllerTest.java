@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.*;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -27,6 +29,9 @@ class IndexControllerTest {
 
         assertEquals("index", controller.index(), () -> "Another expensive method" +
                 "to call");
+
+        assertThat(controller.index()).isEqualTo("index");
+
     }
 
     @Test
@@ -68,4 +73,37 @@ class IndexControllerTest {
     void testAssumptionTrueAssumptionIsTrue() {
         assumeTrue("GURU".equalsIgnoreCase("guru"));
     }
+
+    @EnabledOnOs(OS.MAC)
+    @Test
+    void testOnOSX() {
+    }
+
+    @EnabledOnOs(OS.WINDOWS)
+    @Test
+    void testOnWindows() {
+    }
+
+    @EnabledOnJre(JRE.JAVA_8)
+    @Test
+    void testOnJava8() {
+    }
+
+
+    @EnabledOnJre(JRE.JAVA_11)
+    @Test
+    void testOnJava11() {
+    }
+
+    @EnabledIfEnvironmentVariable(named="USER", matches="jt")
+    @Test
+    void testIfUserJT() {
+    }
+
+    @EnabledIfEnvironmentVariable(named="USER", matches="Fred")
+    @Test
+    void testIfUserFred() {
+    }
+
+
 }
